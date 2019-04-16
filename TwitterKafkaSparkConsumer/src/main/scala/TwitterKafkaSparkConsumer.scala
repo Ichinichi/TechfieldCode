@@ -13,7 +13,7 @@ object TwitterKafkaSparkConsumer {
 
   def main(args: Array[String]): Unit = {
 
-    /*//setup the parameters for this consumer's connection to kafka(only used for DirectStream)
+    //setup the parameters for this consumer's connection to kafka(only used for DirectStream)
     val kafkaParams = Map[String, Object](
       "bootstrap.servers" -> "localhost:9092, localhost:9093",
       "key.deserializer" -> "org.apache.kafka.common.serialization.StringDeserializer",
@@ -21,19 +21,20 @@ object TwitterKafkaSparkConsumer {
       "group.id" -> "GamingTweetsGroup"
    //   "auto.offset.reset" -> "latest",
    //   "enable.auto.commit" -> (false :java.lang.Boolean)
-    )*/
+    )
 
     //Sets the topic that this consumer will be pulling from
     val topics = Array("GameTweets")
     val topic = "GameTweets"
 
     //setup spark streaming, spark context, and spark SQL Context
-    /*val conf = new SparkConf().setMaster("local[*]").setAppName(topic)
+    val conf = new SparkConf().setMaster("local[*]").setAppName(topic)
     val ssc = new StreamingContext(conf, Seconds(1))
-    val sc = ssc.sparkContext*/
-    val spark = SparkSession.builder.master("local").appName("sparkkafkatweets").getOrCreate()
-    /*sc.setLogLevel("OFF")
-    val spc = new SparkContext(conf)*/
+    val sc = ssc.sparkContext
+    // NOTE: of all this setup, only spark session is needed for structured streaming
+    //val spark = SparkSession.builder.master("local").appName("sparkkafkatweets").getOrCreate()
+    sc.setLogLevel("OFF")
+    val spc = new SparkContext(conf)
     import spark.implicits._
 
 
@@ -49,7 +50,7 @@ object TwitterKafkaSparkConsumer {
       StructField("text",types.StringType,true)
     ))
 
-    // alternate way to create schema
+    // alternate way to create schema, used by the structured streaming(streaming directly to DF)
     val streamSchema2 = new StructType()
       .add("user",new StructType()
           .add("created_at", types.StringType)
@@ -60,7 +61,7 @@ object TwitterKafkaSparkConsumer {
       )
       .add("text", types.StringType)
 
-    /*// section that was made to get in with Dstream
+    // section that was made to get in with Dstream
      //creates an RDDs out of the stream
     val stream = KafkaUtils.createDirectStream[String, String](
       ssc,
@@ -71,6 +72,13 @@ object TwitterKafkaSparkConsumer {
     //This makes refined RDDs  with value column
     val streamRDD = stream.map(lines => lines.value)
 
+    streamRDD.foreachRDD{ RDD =>
+      val spark = SparkSession.builder.master("local[*]").appName("sparkkafkatweets").getOrCreate()
+      //was currently here when making version two
+      val streamrdd2 = spark.read.format("json").schema(streamSchema).load(RDD)
+      streamrdd2.select("created_at","user.screen_name")
+      streamrdd2.show()
+    }
 
 
     //Print out the RDD
@@ -80,9 +88,9 @@ object TwitterKafkaSparkConsumer {
     ssc.start()
     ssc.awaitTermination()
     System.out.println("code reached end")
-    //end of section trying to get it working with RDDs first*/
+    //end of section trying to get it working with RDDs first
 
-   //This is streaming directly into DFs
+   /*//This is streaming directly into DFs
     val streamDF = spark
       .readStream
       .format("kafka")
@@ -99,8 +107,6 @@ object TwitterKafkaSparkConsumer {
       $"tweet.user.friends_count",
       $"tweet.user.location")
 
-    //display(streamProperDF)
-
     /*streamnextDF
       .writeStream
       .format("console")
@@ -114,6 +120,7 @@ object TwitterKafkaSparkConsumer {
       .option("path", "/home/ichinichi/Documents/sparkjson")
       .start()
       .awaitTermination()
+    //This is end of the section  streaming directly into DFs*/
 
 
 

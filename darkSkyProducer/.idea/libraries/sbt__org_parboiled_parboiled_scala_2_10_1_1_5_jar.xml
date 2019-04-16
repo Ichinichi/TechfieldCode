@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: org.parboiled:parboiled-scala_2.10:1.1.5:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.parboiled/parboiled-scala_2.10/bundles/parboiled-scala_2.10-1.1.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.parboiled/parboiled-scala_2.10/srcs/parboiled-scala_2.10-1.1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

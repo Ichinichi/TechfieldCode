@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: com.amazonaws:amazon-kinesis-producer:0.12.11:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.amazonaws/amazon-kinesis-producer/jars/amazon-kinesis-producer-0.12.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/com.amazonaws/amazon-kinesis-producer/srcs/amazon-kinesis-producer-0.12.11-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

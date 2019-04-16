@@ -4,7 +4,7 @@
 		module="skalaproducershomemade_2.11"
 		revision="0.1"
 		status="integration"
-		publication="20190329112813"
+		publication="20190407135432"
 	>
 		<description>
 		SkalaProducersHomeMade
@@ -41,5 +41,6 @@
 			<exclude org="com.sun.jmx" module="jmxri" name="*" type="*" ext="*" conf="" matcher="exact"/>
 			<exclude org="org.slf4j" module="slf4j-simple" name="*" type="*" ext="*" conf="" matcher="exact"/>
 		</dependency>
+		<dependency org="org.apache.kafka" name="kafka_2.11" rev="2.1.0" conf="compile->default(compile)"/>
 	</dependencies>
 </ivy-module>

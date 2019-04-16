@@ -26,6 +26,8 @@ public class twitterScanner {
         properties.put("client.id","camus");
         ProducerConfig producerConfig = new ProducerConfig(properties);
         kafka.javaapi.producer.Producer<String, String> producer = new kafka.javaapi.producer.Producer<String, String>(producerConfig);
+
+
         BlockingQueue<String> queue = new LinkedBlockingQueue<String>(100000);
         StatusesFilterEndpoint endpoint = new StatusesFilterEndpoint();
         endpoint.trackTerms(Lists.newArrayList("FFXIV","#ESports","#CLG","TSM","#C9",
